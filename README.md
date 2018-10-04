@@ -1,27 +1,50 @@
-# VwcWineSearchClarity
+# 概要
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.4.
+Wine Mates アプリケーション - Virtual Wine Cellar(VWC) ワイン検索アプリ:
 
-## Development server
+このアプリケーションは、vwc-server-java (ワイン情報検索 API)のフロントエンドです。
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+# 注意
+vwc-wine-search を Clarity UI ベースに書き換え中のプロジェクトです(WIP)。
 
-## Code scaffolding
+# HowTo: Build & Run
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+~~~
+# git clone https://github.com/smachida/vwc-wine-search-clarity.git
+# cd vwc-wine-search-clarity
+~~~
 
-## Build
+~~~
+以下のファイルの内容を修正
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+src/app/wine.service.ts:
+WEB_API_URL のホスト名及びポート番号を、あらかじめ起動した vwc-server-java のエンドポイントにあわせて
+「localhost:28080」などに変更。
 
-## Running unit tests
+〜〜〜　省略　〜〜〜
+@Injectable()
+export class WineService {
+  WEB_API_URL: string = "http://ec2-52-192-145-111.ap-northeast-1.compute.amazonaws.com:28080/api/v1/wine/wines";
+  //DEFAULT_SIZE: string = "30";
+  〜〜〜　省略　〜〜〜
+   
+~~~
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+~~~
+# npm install
+# ng build --prod
+# docker build --tag=vwc-wine-search-clarity .
+# docker run -d -p 80:80 --rm --name vwc-wine-search-clarity vwc-wine-search-clarity
 
-## Running end-to-end tests
+http://localhost にアクセス
+~~~
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+# 依存関係
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+~~~
+前提条件:
+nodejs
+npm
+AngularCLI
+docker
+~~~
